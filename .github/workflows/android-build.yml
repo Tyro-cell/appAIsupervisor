@@ -34,15 +34,26 @@ jobs:
       - name: Install Buildozer
         run: |
           python -m pip install --upgrade pip wheel setuptools
-          python -m pip install buildozer==1.5.0 cython
+          # pyjnius (pulled in by Kivy) is not compatible with Cython 3 yet.
+          # Pin Cython to the 0.29.x series to avoid build failures on CI.
+          python -m pip install buildozer==1.5.0 "cython<3"
 
       - name: Build APK (debug)
         env:
           # Speeds up builds by keeping downloads inside workspace cache.
           BUILDOZER_LOG_LEVEL: "2"
+          # Prevent preinstalled Android env from interfering with Buildozer's SDK/NDK.
+          ANDROID_HOME: ""
+          ANDROID_SDK_ROOT: ""
+          ANDROID_NDK_HOME: ""
+          ANDROID_NDK_ROOT: ""
+          ANDROID_NDK: ""
+          ANDROIDSDK: ""
+          ANDROIDNDK: ""
         run: |
           # Auto-accept Android SDK licenses in non-interactive CI.
-          yes | buildozer -v android debug
+          set -o pipefail
+          yes | buildozer -v android debug 2>&1 | tee buildozer-ci.log
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
@@ -50,3 +61,13 @@ jobs:
           name: ai-supervisor-apk
           path: bin/*.apk
           if-no-files-found: error
+
+      - name: Upload build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: buildozer-log
+          path: |
+            buildozer-ci.log
+            .buildozer/**
+          if-no-files-found: warn
