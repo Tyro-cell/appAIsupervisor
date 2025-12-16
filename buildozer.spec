@@ -17,9 +17,10 @@ android.permissions = INTERNET,POST_NOTIFICATIONS,WAKE_LOCK,FOREGROUND_SERVICE
 android.api = 34
 android.minapi = 24
 android.sdk_build_tools = 34.0.0
+android.archs = arm64-v8a
+android.arch = arm64-v8a
 
 services = reminder:service/main.py
 
 [buildozer]
 log_level = 2
-
