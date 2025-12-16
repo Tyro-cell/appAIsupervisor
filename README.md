@@ -69,6 +69,7 @@ buildozer -v android debug
 
 说明：
 - `buildozer.spec` 已包含 `POST_NOTIFICATIONS` 权限与一个后台 `service`（`service/main.py`），用于在 App 退到后台后继续发本地提醒（系统可能仍会因省电策略杀服务）。
+- GitHub Actions 已做自动 `yes | buildozer ...` 以接受 SDK License。
 
 ## Android 在线打包（GitHub Actions）
 
