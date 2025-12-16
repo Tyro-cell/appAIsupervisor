@@ -1,0 +1,191 @@
+#:import dp kivy.metrics.dp
+
+MDScreen:
+    MDBoxLayout:
+        orientation: "vertical"
+
+        MDTopAppBar:
+            id: topbar
+            title: "AI督学师"
+            elevation: 0
+
+        ScreenManager:
+            id: sm
+
+            MDScreen:
+                name: "today"
+
+                MDBoxLayout:
+                    orientation: "vertical"
+                    padding: dp(16)
+                    spacing: dp(12)
+
+                    MDLabel:
+                        id: today_title
+                        text: "今日任务"
+                        font_style: "H5"
+                        size_hint_y: None
+                        height: self.texture_size[1]
+
+                    MDScrollView:
+                        MDList:
+                            id: today_task_list
+
+                    MDFillRoundFlatButton:
+                        text: "添加今日任务"
+                        on_release: app.open_add_task()
+                        size_hint_y: None
+                        height: dp(44)
+
+            MDScreen:
+                name: "plans"
+
+                MDBoxLayout:
+                    orientation: "vertical"
+                    padding: dp(16)
+                    spacing: dp(12)
+
+                    MDLabel:
+                        text: "计划列表"
+                        font_style: "H5"
+                        size_hint_y: None
+                        height: self.texture_size[1]
+
+                    MDScrollView:
+                        MDList:
+                            id: plan_list
+
+                    MDFillRoundFlatButton:
+                        text: "创建计划（AI可拆解）"
+                        on_release: app.open_create_plan()
+                        size_hint_y: None
+                        height: dp(44)
+
+            MDScreen:
+                name: "checkin"
+
+                MDBoxLayout:
+                    orientation: "vertical"
+                    padding: dp(16)
+                    spacing: dp(12)
+
+                    MDLabel:
+                        text: "选择任务打卡"
+                        font_style: "H5"
+                        size_hint_y: None
+                        height: self.texture_size[1]
+
+                    MDScrollView:
+                        MDList:
+                            id: checkin_task_list
+
+            MDScreen:
+                name: "history"
+
+                MDBoxLayout:
+                    orientation: "vertical"
+                    padding: dp(16)
+                    spacing: dp(12)
+
+                    MDLabel:
+                        text: "最近打卡"
+                        font_style: "H5"
+                        size_hint_y: None
+                        height: self.texture_size[1]
+
+                    MDScrollView:
+                        MDList:
+                            id: history_list
+
+            MDScreen:
+                name: "settings"
+
+                MDScrollView:
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        padding: dp(16)
+                        spacing: dp(12)
+                        size_hint_y: None
+                        height: self.minimum_height
+
+                        MDLabel:
+                            text: "AI设置（OpenAI兼容）"
+                            font_style: "H5"
+                            size_hint_y: None
+                            height: self.texture_size[1]
+
+                        MDTextField:
+                            id: base_url
+                            mode: "rectangle"
+                            hint_text: "Base URL（如 https://api.openai.com）"
+
+                        MDTextField:
+                            id: api_key
+                            mode: "rectangle"
+                            hint_text: "API Key（本地保存）"
+                            password: True
+
+                        MDTextField:
+                            id: model
+                            mode: "rectangle"
+                            hint_text: "Model（如 gpt-4o-mini）"
+
+                        MDLabel:
+                            text: "提醒设置"
+                            font_style: "H5"
+                            size_hint_y: None
+                            height: self.texture_size[1]
+
+                        MDTextField:
+                            id: reminder_grace_min
+                            mode: "rectangle"
+                            hint_text: "逾期宽限（分钟，默认5）"
+                            input_filter: "int"
+
+                        MDTextField:
+                            id: reminder_resend_min
+                            mode: "rectangle"
+                            hint_text: "重复提醒间隔（分钟，默认15）"
+                            input_filter: "int"
+
+                        MDTextField:
+                            id: reminder_max_sends
+                            mode: "rectangle"
+                            hint_text: "最多提醒次数（默认3）"
+                            input_filter: "int"
+
+                        MDFillRoundFlatButton:
+                            text: "保存设置"
+                            on_release: app.save_settings()
+                            size_hint_y: None
+                            height: dp(44)
+
+                        MDFillRoundFlatButton:
+                            text: "导出数据（JSON）"
+                            on_release: app.export_data()
+                            size_hint_y: None
+                            height: dp(44)
+
+        MDBoxLayout:
+            size_hint_y: None
+            height: dp(72)
+            padding: dp(10)
+            spacing: dp(10)
+            md_bg_color: 0.12, 0.12, 0.12, 1
+
+            MDIconButton:
+                icon: "calendar-today"
+                on_release: app.switch_tab("today")
+            MDIconButton:
+                icon: "clipboard-text"
+                on_release: app.switch_tab("plans")
+            MDIconButton:
+                icon: "check-circle-outline"
+                on_release: app.switch_tab("checkin")
+            MDIconButton:
+                icon: "history"
+                on_release: app.switch_tab("history")
+            MDIconButton:
+                icon: "cog-outline"
+                on_release: app.switch_tab("settings")
+
