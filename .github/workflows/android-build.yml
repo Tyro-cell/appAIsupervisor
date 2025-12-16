@@ -41,7 +41,8 @@ jobs:
           # Speeds up builds by keeping downloads inside workspace cache.
           BUILDOZER_LOG_LEVEL: "2"
         run: |
-          buildozer -v android debug
+          # Auto-accept Android SDK licenses in non-interactive CI.
+          yes | buildozer -v android debug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
@@ -49,4 +50,3 @@ jobs:
           name: ai-supervisor-apk
           path: bin/*.apk
           if-no-files-found: error
-
