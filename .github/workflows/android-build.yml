@@ -51,6 +51,8 @@ jobs:
           ANDROIDSDK: ""
           ANDROIDNDK: ""
         run: |
+          export JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64
+          export PATH="$JAVA_HOME/bin:$PATH"
           # Auto-accept Android SDK licenses in non-interactive CI.
           set -o pipefail
           yes | buildozer -v android debug 2>&1 | tee buildozer-ci.log
