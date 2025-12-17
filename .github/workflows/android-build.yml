@@ -61,8 +61,8 @@ jobs:
         if: always()
         run: |
           mkdir -p bin
-          # Buildozer sometimes leaves the APK only under the p4a build tree; copy it out for artifact upload.
-          find .buildozer -path "*build/outputs/apk/debug/*.apk" -print -exec cp {} bin/ \; || true
+          # Buildozer can leave APKs either under build/outputs or the dist/bin folder; grab every .apk just in case.
+          find .buildozer -name "*.apk" -print -exec cp {} bin/ \; || true
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
