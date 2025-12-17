@@ -57,6 +57,13 @@ jobs:
           set -o pipefail
           yes | buildozer -v android debug 2>&1 | tee buildozer-ci.log
 
+      - name: Collect APK
+        if: always()
+        run: |
+          mkdir -p bin
+          # Buildozer sometimes leaves the APK only under the p4a build tree; copy it out for artifact upload.
+          find .buildozer -path "*build/outputs/apk/debug/*.apk" -print -exec cp {} bin/ \; || true
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
