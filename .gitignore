@@ -1,0 +1,21 @@
+# Python cache / bytecode
+__pycache__/
+*.pyc
+*.pyo
+
+# Local environments
+.venv/
+.env/
+env/
+
+# Build outputs
+.buildozer/
+bin/
+*.apk
+*.aab
+*.log
+*.sqlite3
+
+# IDE / editor noise
+.idea/
+.vscode/
